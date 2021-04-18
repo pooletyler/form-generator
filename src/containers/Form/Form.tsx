@@ -8,6 +8,7 @@ import {
   answerQuestion,
   calculateProgress,
   changePage,
+  gatherAnswers,
   showElement,
 } from './actions/form.actions';
 import './Form.scss';
@@ -33,6 +34,10 @@ const Form: FC<any> = () => {
   ) => {
     answerQuestion(dispatch, config, page, section, question, value, setConfig);
   };
+
+  const handleSubmitClick = () => {
+    console.log(gatherAnswers(config))
+  }
 
   return (
     <div className="Form-container">
@@ -66,7 +71,7 @@ const Form: FC<any> = () => {
             color="Blue"
             onClick={handleNextPageClick}
           />
-        )) || <Button label="Submit" color="Blue" onClick={null} />}
+        )) || <Button label="Submit" color="Blue" onClick={handleSubmitClick} />}
       </div>
     </div>
   );

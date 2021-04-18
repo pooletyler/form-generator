@@ -37,3 +37,56 @@ export const answerQuestion = (
 
   dispatch(setConfig(newConfig));
 };
+
+export const gatherAnswers = (
+  config: PageConfig[],
+) => {
+  const answers = {};
+
+  config.forEach((page) => {
+    page.Sections.forEach((section) => {
+      section.Questions.forEach((question) => {
+        const { Name, Label, UI, Value } = question
+        let name = undefined;
+        let value = Value;
+
+        if (Name) {
+          name = Name.charAt(0).toLowerCase() + Name.slice(1);
+        }
+
+        if (UI === 'cb' && Value) {
+          value = Label;
+        }
+
+
+        if (name && value) {
+          if (answers[name]) {
+            answers[name].push(value)
+          } else {
+            answers[name] = [value];
+          }
+        }
+      })
+    })
+  })
+
+  Object.keys(answers).forEach((key) => {
+    if (answers[key].length === 1) {
+      answers[key] = answers[key][0]
+    }
+  })
+
+  return answers
+}
+
+export const postData = async (
+  body: {}
+) => {
+  const response = await fetch('YOUR URL HERE', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body)
+  });
+};
